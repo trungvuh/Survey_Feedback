@@ -8,7 +8,7 @@ const keys = require('./config/keys');
 const app = express();
 
 passport.use(
-  new GoogleStrategy(
+  new GoogleStrategy( // GoogleStrategy has the internal identifier as 'google'
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
@@ -18,6 +18,17 @@ passport.use(
       console.log(accessToken);
     }
   )
+);
+
+app.get('/', (req, res) => {
+  res.send({ hello: 'world' });
+});
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email']
+  })
 );
 
 //If there is an environment provided by Heroku, use it, otherwise, listen to 5000
