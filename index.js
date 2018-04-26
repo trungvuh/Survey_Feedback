@@ -1,35 +1,15 @@
 const express = require('express');
 // generate a new application represent a running express app
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-//use to instruct passport to how to authenticate users with Google OAuth
-const keys = require('./config/keys');
+require('./services/passport');
 
 const app = express();
 
-passport.use(
-  new GoogleStrategy( // GoogleStrategy has the internal identifier as 'google'
-    {
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback'
-    },
-    accessToken => {
-      console.log(accessToken);
-    }
-  )
-);
+require('./routes/authRoutes')(app);
+//require the authRoutes returns a function, immediately call that fnct, passing in the app object
 
 app.get('/', (req, res) => {
-  res.send({ hello: 'world' });
+  res.send({ hello: 'worldsss' });
 });
-
-app.get(
-  '/auth/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email']
-  })
-);
 
 //If there is an environment provided by Heroku, use it, otherwise, listen to 5000
 const PORT = process.env.PORT || 5000;
