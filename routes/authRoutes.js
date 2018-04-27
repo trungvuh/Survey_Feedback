@@ -11,4 +11,8 @@ module.exports = app => {
   app.get('/auth/google/callback', passport.authenticate('google'));
   // Passport will see the code inside the URL and will get the user's profile
   // This is also when we have the accessToken
+
+  app.get('/api/current_user', (req, res) => {
+    res.send(req.user);
+  });
 };

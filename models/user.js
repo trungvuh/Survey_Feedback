@@ -7,3 +7,4 @@ const userSchema = new Schema({
 });
 
 mongoose.model('users', userSchema);
+//this is to load the user schema into mongoose
